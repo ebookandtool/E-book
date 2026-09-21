@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>मोबाइल लाइव कोड एडिटर (स्थाई सिंबल पट्टी फिक्स)</title>
+    
+    <!-- CodeMirror और उसकी थीम की CSS फाइलें (CDN से) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* सबसे ऊपर फाइलों/विंडोज़ की पट्टी और थ्री-डॉट मेनू */
+        #tabs-bar {
+            width: 100%;
+            background: #181a20;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 38px;
+            flex-shrink: 0;
+            padding: 0 5px;
+        }
+
+        #tabs-container {
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+            gap: 5px;
+            flex: 1;
+            scrollbar-width: none;
+        }
+        #tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* टैब का डिज़ाइन */
+        .file-tab {
+            background: #21222c;
+            color: #a9b7c6;
+            padding: 5px 10px;
+            font-size: 11px;
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #3d3f58;
+            border-bottom: none;
+            flex-shrink: 0;
+        }
+
+        .file-tab.active {
+            background: #282a36;
+            color: #8be9fd;
+            font-weight: bold;
+            border-top: 2px solid #bd93f9;
+        }
+
+        .tab-close {
+            font-size: 12px;
+            color: #ff5555;
+            cursor: pointer;
+            padding: 0 2px;
+        }
+
+        /* दाईं ओर थ्री-डॉट मेनू बटन (⋮) */
+        .menu-dots-btn {
+            background: #21222c;
+            color: #f8f8f2;
+            border: 1px solid #44475a;
+            width: 30px;
+            height: 28px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-left: 5px;
+        }
+
+        /* एकीकृत मेनू पॉपअप */
+        #folder-dropdown-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dropdown-content {
+            background: #21222c;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            width: 88%;
+            max-width: 320px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            border: 1px solid #44475a;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .dropdown-content h3 {
+            font-size: 13px;
+            color: #8be9fd;
+            text-align: center;
+            margin-bottom: 2px;
+            border-bottom: 1px solid #44475a;
+            padding-bottom: 4px;
+        }
+
+        .folder-item {
+            background: #282a36;
+            color: #f8f8f2;
+            padding: 8px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #44475a;
+        }
+
+        .folder-item.active-folder {
+            border-color: #50fa7b;
+            color: #50fa7b;
+            font-weight: bold;
+        }
+
+        .folder-add-btn, .color-action-btn, .menu-copy-btn {
+            background: #50fa7b;
+            color: #282a36;
+            border: none;
+            padding: 9px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .menu-copy-btn {
+            background: #8be9fd;
+        }
+
+        /* डायरेक्ट कलर पिकर सेक्शन */
+        .direct-color-section {
+            background: #282a36;
+            border: 1px solid #44475a;
+            border-radius: 6px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .direct-color-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            background: none;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: 2px solid #8be9fd;
+            border-radius: 50%;
+        }
+
+        .hex-code-display {
+            background: #181a20;
+            color: #50fa7b;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #44475a;
+        }
+
+        .palette-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 4px;
+        }
+
+        .palette-chip {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* ऊपर का हिस्सा - आउटपुट / रिजल्ट */
+        #preview-container {
+            width: 100%;
+            height: calc(50vh - 19px);
+            background: #ffffff;
+            border-bottom: 3px solid #444;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: height 0.2s ease;
+        }
+
+        #output {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #ffffff;
+            display: block;
+        }
+
+        /* नीचे का कोडिंग एरिया */
+        #editor-container {
+            width: 100%;
+            height: calc(50vh - 19px);
+            display: flex;
+            flex-direction: column;
+            background-color: #282a36;
+            position: relative;
+            flex-shrink: 0;
+            transition: height 0.2s ease;
+        }
+
+        /* हेडर पट्टी */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            background: #21222c;
+            border-bottom: 1px solid #44475a;
+            font-size: 11px;
+            height: 35px;
+            flex-shrink: 0;
+        }
+
+        .toolbar-left {
+            color: #8be9fd;
+            font-weight: bold;
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tool-btn {
+            background: #bd93f9;
+            color: #282a36;
+            border: none;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-clear {
+            background: #ff5555 !important;
+            color: #ffffff !important;
+        }
+
+        .btn-fullview {
+            background: #50fa7b !important;
+            color: #282a36 !important;
+        }
+
+        .setting-btn {
+            background: #bd93f9;
+            color: #282a36;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            color: #f8f8f2;
+            font-size: 10px;
+        }
+
+        /* CodeMirror एडिटर (हमेशा स्थायी पैडिंग के साथ ताकि कर्सर कभी न छिपे) */
+        .CodeMirror {
+            height: calc(50vh - 95px) !important;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 15px;
+            background-color: #282a36 !important;
+            color: #f8f8f2 !important;
+            padding-bottom: 80px !important;
+        }
+
+        .CodeMirror.full-code-height {
+            height: calc(100vh - 113px) !important;
+        }
+
+        /* फ्लोटिंग वापस जाने का बटन */
+        #floating-back-btn {
+            display: none;
+            position: fixed;
+            top: 50px;
+            right: 15px;
+            background: #ff5555;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 9999;
+            cursor: pointer;
+        }
+
+        /* अब सिंबल पट्टी हमेशा स्थायी (Permanent) रूप से नीचे दिखाई देगी */
+        .symbol-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #21222c;
+            border-top: 1px solid #44475a;
+            display: grid !important; /* हमेशा ऑन रहेगी */
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+            padding: 4px;
+            z-index: 20;
+        }
+
+        .sym-btn {
+            background: #44475a;
+            color: #f8f8f2;
+            border: 1px solid #6272a4;
+            padding: 5px 0;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            font-family: monospace;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .sym-btn:active {
+            background: #bd93f9;
+            color: #282a36;
+        }
+
+        /* फुल व्यू और सेटिंग्स मॉडल */
+        #fullview-modal, #settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #21222c;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 85%;
+            max-width: 300px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #44475a;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 5px;
+            font-size: 15px;
+            color: #8be9fd;
+            text-align: center;
+        }
+
+        .modal-btn-option {
+            background: #50fa7b;
+            color: #282a36;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .modal-btn-option.code {
+            background: #bd93f9;
+        }
+
+        .modal-btn-option.normal {
+            background: #ffb86c;
+        }
+
+        .btn-close {
+            background: #ff5555 !important;
+            color: white !important;
+            margin-top: 5px;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- CodeMirror और उसकी थीम की JavaScript फाइलें (CDN से) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+</head>
+<body>
+
+    <!-- सबसे ऊपर खिसकने वाली विंडो/टैब पट्टी और थ्री-डॉट मेनू बटन -->
+    <div id="tabs-bar">
+        <div id="tabs-container"></div>
+        <button class="menu-dots-btn" onclick="openFolderDropdown()" title="विकल्प मेनू">⋮</button>
+    </div>
+
+    <!-- एकीकृत मेनू पॉपअप -->
+    <div id="folder-dropdown-modal">
+        <div class="dropdown-content">
+            <h3>📁 फोल्डर और प्रोजेक्ट्स</h3>
+            <div id="dropdown-folders-list" style="display: flex; flex-direction: column; gap: 5px; max-height: 120px; overflow-y: auto;"></div>
+            <button class="folder-add-btn" onclick="createNewFile()">+ नया फोल्डर/फाइल जोड़ें</button>
+            <button class="menu-copy-btn" onclick="copyAllCode(); closeFolderDropdown();">📋 पूरा कोड कॉपी करें</button>
+            
+            <h3 style="margin-top: 3px;">🎨 कस्टम कलर पैलेट</h3>
+            <div class="direct-color-section">
+                <div class="direct-color-row">
+                    <input type="color" id="nativeColorPicker" value="#ff5555" oninput="updateHexDisplay(this.value)">
+                    <div class="hex-code-display" id="hexCodeText">#ff5555</div>
+                    <button class="color-action-btn" onclick="addCustomColor()" style="font-size: 11px; padding: 6px;">+ पैलेट में जोड़ें</button>
+                </div>
+                <div style="font-size: 10px; color: #a9b7c6; text-align: center; margin-top: 2px;">(रंग पर क्लिक करके कोड डालें, या हटाने के लिए दबा कर रखें)</div>
+                <div class="palette-container" id="customPaletteContainer"></div>
+            </div>
+
+            <button class="btn-close" onclick="closeFolderDropdown()" style="margin-top: 3px;">बंद करें</button>
+        </div>
+    </div>
+
+    <!-- तैरता हुआ वापस जाने का बटन -->
+    <button id="floating-back-btn" onclick="setFullView('split')">✕ स्प्लिट व्यू पर लौटें</button>
+
+    <!-- ऊपर का डिस्प्ले एरिया -->
+    <div id="preview-container"></div>
+
+    <!-- नीचे का कोडिंग एरिया -->
+    <div id="editor-container">
+        <!-- ऊपर की हेडर पट्टी -->
+        <div class="toolbar" id="mainToolbar">
+            <span class="toolbar-left" id="currentFileName">HTML एडिटर</span>
+            <div class="toolbar-right">
+                <label class="toggle-label">
+                    <input type="checkbox" id="liveToggle" checked onchange="handleLiveToggle()"> लाइव
+                </label>
+                <button class="tool-btn" id="runBtn" style="display:none;" onclick="updatePreview()">रन्</button>
+                <button class="tool-btn btn-fullview" onclick="openFullViewMenu()" id="fullViewBtn">फुल व्यू</button>
+                <button class="tool-btn" onclick="saveFile()">सेव</button>
+                <button class="tool-btn btn-clear" onclick="clearCode()">डिलीट</button>
+                <button class="setting-btn" onclick="openSettings()" title="सेटिंग्स">⚙️</button>
+            </div>
+        </div>
+
+        <!-- CodeMirror एडिटर -->
+        <textarea id="code-input"></textarea>
+
+        <!-- हमेशा नीचे दिखाई देने वाली (Permanent) सिंबल पट्टी -->
+        <div class="symbol-bar" id="symbolBar">
+            <button class="sym-btn" onclick="insertSymbol('<')">&lt;</button>
+            <button class="sym-btn" onclick="insertSymbol('>')">&gt;</button>
+            <button class="sym-btn" onclick="insertSymbol('/')">/</button>
+            <button class="sym-btn" onclick="insertSymbol('=')">=</button>
+            <button class="sym-btn" onclick="insertSymbol('"')">&quot;</button>
+            <button class="sym-btn" onclick="insertSymbol(':')">:</button>
+            <button class="sym-btn" onclick="insertSymbol(';')">;</button>
+            <button class="sym-btn" onclick="insertSymbol('{')">{</button>
+            <button class="sym-btn" onclick="insertSymbol('}')">}</button>
+            <button class="sym-btn" onclick="insertSymbol('-')">-</button>
+
+            <button class="sym-btn" onclick="insertSymbol('(')">(</button>
+            <button class="sym-btn" onclick="insertSymbol(')')">)</button>
+            <button class="sym-btn" onclick="insertSymbol('_')">_</button>
+            <button class="sym-btn" onclick="insertSymbol('#')">#</button>
+            <button class="sym-btn" onclick="insertSymbol('.')">.</button>
+            <button class="sym-btn" onclick="insertSymbol('!')">!</button>
+            <button class="sym-btn" onclick="insertSymbol('?')">?</button>
+            <button class="sym-btn" onclick="insertSymbol('$')">$</button>
+            <button class="sym-btn" onclick="insertSymbol('+')">+</button>
+            <button class="sym-btn" onclick="insertSymbol('\'')">'</button>
+        </div>
+    </div>
+
+    <!-- फुल व्यू विकल्प चुनने वाली पॉपअप विंडो -->
+    <div id="fullview-modal">
+        <div class="modal-content">
+            <h3>फुल व्यू विकल्प चुनें</h3>
+            <button class="modal-btn-option" onclick="setFullView('screen')">📱 फुल व्यू स्क्रीन (सिर्फ किताब/ग्लोब)</button>
+            <button class="modal-btn-option code" onclick="setFullView('code')">💻 फुल व्यू कोड (पूरा एडिटर)</button>
+            <button class="modal-btn-option normal" onclick="setFullView('split')">⚡ आधा-आधा (Split View)</button>
+            <button class="btn-close" onclick="closeFullViewMenu()">बंद करें</button>
+        </div>
+    </div>
+
+    <!-- सेटिंग्स पॉपअप विंडो -->
+    <div id="settings-modal">
+        <div class="modal-content">
+            <h3>एडिटर सेटिंग्स</h3>
+            <button class="btn-close" onclick="closeSettings()" style="margin-top:10px;">बंद करें</button>
+        </div>
+    </div>
+
+    <script>
+        let editor = CodeMirror.fromTextArea(document.getElementById('code-input'), {
+            mode: 'htmlmixed',
+            theme: 'dracula',
+            lineNumbers: true,
+            lineWrapping: true,
+            indentUnit: 4
+        });
+
+        let files = JSON.parse(localStorage.getItem('multitab_files_data')) || [
+            { name: "मुख्य किताब.html", code: `<!DOCTYPE html>\n<html>\n<head><style>body{background:#fffdf9;padding:20px;text-align:center;}h2{color:#2c3e50;}</style></head>\n<body><h2>मुख्य प्रोजेक्ट 🚀</h2><p>यह आपका मुख्य फोल्डर/फाइल है!</p></body>\n</html>` },
+            { name: "सुधार कॉपी.html", code: `<!DOCTYPE html>\n<html>\n<head><style>body{background:#121212;color:#fff;padding:20px;text-align:center;}h2{color:#50fa7b;}</style></head>\n<body><h2>सुधार वाला प्रोजेक्ट 🛠️</h2><p>यहाँ आप नया कोड टेस्ट कर सकते हैं!</p></body>\n</html>` }
+        ];
+        let currentFileIndex = parseInt(localStorage.getItem('multitab_active_index')) || 0;
+        let customColors = JSON.parse(localStorage.getItem('my_custom_palette')) || ["#ff5555", "#50fa7b", "#8be9fd", "#ffb86c", "#bd93f9"];
+
+        function saveAllFiles() {
+            localStorage.setItem('multitab_files_data', JSON.stringify(files));
+            localStorage.setItem('multitab_active_index', currentFileIndex);
+            localStorage.setItem('my_custom_palette', JSON.stringify(customColors));
+        }
+
+        function renderTabs() {
+            const container = document.getElementById('tabs-container');
+            const dropdownList = document.getElementById('dropdown-folders-list');
+            container.innerHTML = '';
+            dropdownList.innerHTML = '';
+
+            files.forEach((file, index) => {
+                const tab = document.createElement('div');
+                tab.className = `file-tab ${index === currentFileIndex ? 'active' : ''}`;
+                tab.innerHTML = `<span>${file.name}</span>`;
+                tab.onclick = () => switchFile(index);
+
+                if (files.length > 1) {
+                    const closeBtn = document.createElement('span');
+                    closeBtn.className = 'tab-close';
+                    closeBtn.innerHTML = '×';
+                    closeBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        deleteFile(index);
+                    };
+                    tab.appendChild(closeBtn);
+                }
+                container.appendChild(tab);
+
+                const dropItem = document.createElement('div');
+                dropItem.className = `folder-item ${index === currentFileIndex ? 'active-folder' : ''}`;
+                dropItem.innerHTML = `<span>📁 ${file.name}</span> ${index === currentFileIndex ? '✓' : ''}`;
+                dropItem.onclick = () => {
+                    switchFile(index);
+                    closeFolderDropdown();
+                };
+                dropdownList.appendChild(dropItem);
+            });
+            renderPalette();
+        }
+
+        function renderPalette() {
+            const paletteContainer = document.getElementById('customPaletteContainer');
+            paletteContainer.innerHTML = '';
+
+            customColors.forEach((color, idx) => {
+                const chip = document.createElement('div');
+                chip.className = 'palette-chip';
+                chip.style.backgroundColor = color;
+                chip.title = `${color} (हटाने के लिए दबाकर रखें)`;
+
+                chip.onclick = () => {
+                    editor.replaceSelection(color);
+                    closeFolderDropdown();
+                    editor.focus();
+                };
+
+                chip.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    if (confirm(`क्या आप रंग ${color} को पैलेट से हटाना चाहते हैं?`)) {
+                        customColors.splice(idx, 1);
+                        saveAllFiles();
+                        renderPalette();
+                    }
+                };
+
+                let pressTimer;
+                chip.ontouchstart = () => {
+                    pressTimer = setTimeout(() => {
+                        if (confirm(`क्या आप रंग ${color} को पैलेट से हटाना चाहते हैं?`)) {
+                            customColors.splice(idx, 1);
+                            saveAllFiles();
+                            renderPalette();
+                        }
+                    }, 800);
+                };
+                chip.ontouchend = () => clearTimeout(pressTimer);
+
+                paletteContainer.appendChild(chip);
+            });
+        }
+
+        function addCustomColor() {
+            const hexVal = document.getElementById('nativeColorPicker').value;
+            if (!customColors.includes(hexVal)) {
+                customColors.push(hexVal);
+                saveAllFiles();
+                renderPalette();
+            }
+        }
+
+        function openFolderDropdown() {
+            renderTabs();
+            document.getElementById('folder-dropdown-modal').style.display = 'flex';
+        }
+
+        function closeFolderDropdown() {
+            document.getElementById('folder-dropdown-modal').style.display = 'none';
+        }
+
+        function updateHexDisplay(colorVal) {
+            document.getElementById('hexCodeText').innerText = colorVal;
+        }
+
+        function copyAllCode() {
+            const code = editor.getValue();
+            navigator.clipboard.writeText(code).then(() => {
+                alert("📋 सारा कोड क्लिपबोर्ड पर कॉपी हो गया है!");
+            }).catch(err => {
+                let textarea = document.createElement("textarea");
+                textarea.value = code;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+                alert("📋 सारा कोड कॉपी हो गया है!");
+            });
+        }
+
+        function switchFile(index) {
+            files[currentFileIndex].code = editor.getValue();
+            currentFileIndex = index;
+            saveAllFiles();
+
+            editor.setValue(files[currentFileIndex].code);
+            document.getElementById('currentFileName').innerText = files[currentFileIndex].name;
+            renderTabs();
+            updatePreview();
+        }
+
+        function createNewFile() {
+            let fileName = prompt("नयी फाइल या फोल्डर का नाम दें:", "project" + (files.length + 1) + ".html");
+            if (fileName) {
+                files[currentFileIndex].code = editor.getValue();
+                files.push({
+                    name: fileName,
+                    code: `<!DOCTYPE html>\n<html>\n<head><style>body{font-family:sans-serif;padding:20px;text-align:center;}h2{color:#bd93f9;}</style></head>\n<body><h2>${fileName} 🚀</h2><p>नया पेज तैयार है!</p></body>\n</html>`
+                });
+                currentFileIndex = files.length - 1;
+                saveAllFiles();
+                editor.setValue(files[currentFileIndex].code);
+                document.getElementById('currentFileName').innerText = files[currentFileIndex].name;
+                renderTabs();
+                updatePreview();
+                closeFolderDropdown();
+            }
+        }
+
+        function deleteFile(index) {
+            if (files.length <= 1) {
+                alert("कम से कम एक फाइल होना जरूरी है!");
+                return;
+            }
+            if (confirm(`क्या आप '${files[index].name}' को हटाना चाहते हैं?`)) {
+                files.splice(index, 1);
+                if (currentFileIndex >= files.length) {
+                    currentFileIndex = files.length - 1;
+                }
+                saveAllFiles();
+                editor.setValue(files[currentFileIndex].code);
+                document.getElementById('currentFileName').innerText = files[currentFileIndex].name;
+                renderTabs();
+                updatePreview();
+            }
+        }
+
+        function clearCode() {
+            if (confirm(`क्या आप '${files[currentFileIndex].name}' का सारा कोड डिलीट करना चाहते हैं?`)) {
+                editor.setValue("");
+                files[currentFileIndex].code = "";
+                saveAllFiles();
+                updatePreview();
+                editor.focus();
+            }
+        }
+
+        async function saveFile() {
+            const code = editor.getValue();
+            const fileName = files[currentFileIndex].name;
+            
+            if (window.showSaveFilePicker) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: fileName,
+                        types: [{
+                            description: 'HTML फाइल्स',
+                            accept: { 'text/html': ['.html'] },
+                        }],
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(code);
+                    await writable.close();
+                    alert("✨ फाइल सफलतापूर्वक 'MobileCodeEditor_Projects' फोल्डर में सेव हो गई!");
+                    return;
+                } catch (err) {}
+            }
+
+            const blob = new Blob([code], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `MobileCodeEditor_${fileName}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function insertSymbol(sym) {
+            editor.replaceSelection(sym);
+            editor.focus();
+        }
+
+        function openSettings() {
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettings() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        editor.on('change', function() {
+            files[currentFileIndex].code = editor.getValue();
+            saveAllFiles();
+
+            const isLive = document.getElementById('liveToggle').checked;
+            if (isLive) {
+                updatePreview();
+            }
+        });
+
+        // स्थायी सिंबल पट्टी के साथ कर्सर को हमेशा सुरक्षित रूप से दृश्यमान रखना
+        editor.on('focus', function() {
+            editor.refresh();
+            setTimeout(() => {
+                try {
+                    let cursor = editor.getCursor();
+                    editor.scrollIntoView(cursor, 120);
+                } catch(e) {}
+            }, 50);
+        });
+
+        function updatePreview() {
+            const container = document.getElementById('preview-container');
+            let iframe = document.getElementById('output');
+            
+            if (iframe) {
+                iframe.remove();
+            }
+            
+            iframe = document.createElement('iframe');
+            iframe.id = 'output';
+            container.appendChild(iframe);
+
+            const code = editor.getValue();
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            
+            iframeDoc.open();
+            iframeDoc.write(code);
+            iframeDoc.close();
+        }
+
+        function handleLiveToggle() {
+            const isLive = document.getElementById('liveToggle').checked;
+            const runBtn = document.getElementById('runBtn');
+            if (isLive) {
+                runBtn.style.display = 'none';
+                updatePreview();
+            } else {
+                runBtn.style.display = 'inline-block';
+            }
+        }
+
+        function openFullViewMenu() {
+            document.getElementById('fullview-modal').style.display = 'flex';
+        }
+        function closeFullViewMenu() {
+            document.getElementById('fullview-modal').style.display = 'none';
+        }
+
+        function setFullView(mode) {
+            const tabsBar = document.getElementById('tabs-bar');
+            const previewContainer = document.getElementById('preview-container');
+            const editorContainer = document.getElementById('editor-container');
+            const fullViewBtn = document.getElementById('fullViewBtn');
+            const floatingBtn = document.getElementById('floating-back-btn');
+            const cmElement = document.querySelector('.CodeMirror');
+
+            closeFullViewMenu();
+
+            if (mode === 'screen') {
+                tabsBar.style.display = 'none';
+                previewContainer.style.height = '100vh';
+                previewContainer.style.display = 'block';
+                editorContainer.style.display = 'none';
+                floatingBtn.style.display = 'block';
+                updatePreview();
+            } else if (mode === 'code') {
+                tabsBar.style.display = 'flex';
+                previewContainer.style.height = '0vh';
+                previewContainer.style.display = 'none';
+                editorContainer.style.display = 'flex';
+                editorContainer.style.height = 'calc(100vh - 38px)';
+                cmElement.classList.add('full-code-height');
+                floatingBtn.style.display = 'none';
+                fullViewBtn.innerText = 'व्यू: कोड';
+                editor.refresh();
+            } else {
+                tabsBar.style.display = 'flex';
+                previewContainer.style.height = 'calc(50vh - 19px)';
+                previewContainer.style.display = 'block';
+                editorContainer.style.display = 'flex';
+                editorContainer.style.height = 'calc(50vh - 19px)';
+                cmElement.classList.remove('full-code-height');
+                floatingBtn.style.display = 'none';
+                fullViewBtn.innerText = 'फुल व्यू';
+                updatePreview();
+                editor.refresh();
+            }
+        }
+
+        window.onload = function() {
+            if (files.length > 0) {
+                editor.setValue(files[currentFileIndex].code);
+                document.getElementById('currentFileName').innerText = files[currentFileIndex].name;
+                renderTabs();
+            }
+            updatePreview();
+        };
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/editor-sw.js')
+                .then((reg) => console.log('Service Worker Registered successfully'))
+                .catch((err) => console.log('Service Worker Failed', err));
+        });
+    }
+</script>
+
+
+</body>
+</html>
