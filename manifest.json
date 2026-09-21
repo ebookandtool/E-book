@@ -1,15 +1,26 @@
 {
-  "name": "मोबाइल लाइव कोड एडिटर",
-  "short_name": "CodeEditor",
-  "start_url": "/editor.html",
-  "display": "standalone",
-  "background_color": "#121212",
-  "theme_color": "#21222c",
-  "icons": [
-    {
-      "src": "editor-icon.png",
-      "sizes": "768x1024",
-      "type": "image/png"
-    }
-  ]
+    "background_color": "#ffffff",
+    "dir": "ltr",
+    "display": "standalone",
+    "name": "digital-book-portal.netlify.app",
+    "orientation": "any",
+    "scope": "/",
+    "short_name": "digital-book-portal",
+    "start_url": "/",
+    "theme_color": "#ffffff",
+    "id": "digital-book-portal",
+    "lang": "hi",
+    "categories": [
+        "books",
+        "design",
+        "education"
+    ],
+    "icons": [
+        {
+            "src": "Index-icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
+
