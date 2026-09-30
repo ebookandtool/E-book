@@ -150,15 +150,12 @@
             display: inline-block; 
             margin-bottom: 0.5rem; 
         }
-        
         .badge-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0.8rem;
         }
-
-        /* असली किताब जैसा रियलिस्टिक 3D शैडो कार्ड */
         .real-book-card {
             background: linear-gradient(135deg, #fffdfa 0%, #fff6e9 100%);
             border: 1px solid #e2d9c5;
@@ -167,7 +164,6 @@
             padding: 2rem;
             position: relative;
         }
-
         .book-cover-inner {
             background: #ffffff;
             border: 2px solid #fde68a;
@@ -206,8 +202,6 @@
             transform: scale(1.02);
             background: linear-gradient(135deg, #1e40af, #1e3a8a);
         }
-        
-        /* फिल्टर टैग्स स्टाइल */
         .filter-tags {
             display: flex;
             flex-wrap: wrap;
@@ -231,7 +225,6 @@
 </head>
 <body>
 
-    <!-- ऊपर का हिस्सा: लोगो और सर्च बार -->
     <header>
         <div style="font-size: 1.5rem; font-weight: bold; letter-spacing: 0.5px;">📖 डिजिटल बुक पोर्टल</div>
         <div class="search-box">
@@ -247,20 +240,16 @@
 
     <div class="container">
         
-        <!-- बीच का हिस्सा: डिजिटल बुक एवं क्विज़ -->
         <h2>🚀 वर्तमान में उपलब्ध डिजिटल बुक एवं क्विज़</h2>
         <div class="grid" style="grid-template-columns: 1fr;">
             
-            <!-- मुख्य क्विज़ बुक कार्ड - रियलिस्टिक बुक शैडो और बॉर्डर के साथ -->
             <div class="real-book-card">
                 <div>
-                    <!-- बैजेस -->
                     <div class="badge-container">
                         <span class="badge" style="background-color: #fef3c7; color: #92400e; font-size: 0.85rem; padding: 0.4rem 0.8rem;"> लाइव / उपलब्ध (1600+ प्रश्न)</span>
                         <span class="badge" style="background-color: #dcfce7; color: #166534; font-size: 0.85rem; padding: 0.4rem 0.8rem;">✨ निशुल्क (Free)</span>
                     </div>
                     
-                    <!-- अंदर का बुक कवर और दोनों मोड बटन्स -->
                     <div class="book-cover-inner">
                         <h4>भारतीय इतिहास - डिजिटल क्विज़ बुक</h4>
                         <p>SSC (CGL), Railway, Police एवं अन्य प्रतियोगी परीक्षाओं के लिए</p>
@@ -269,17 +258,33 @@
                         <a href="index-test.html" class="mode-btn" style="background: linear-gradient(135deg, #047857, #065f46); box-shadow: 0 3px 6px rgba(4, 120, 87, 0.2);">📝 टेस्ट मोड (Test Mode)</a>
                     </div>
 
-                    <!-- नीचे का विवरण नोट -->
                     <p style="color: #334155; font-size: 1rem; margin-top: 1rem;"><strong>पाषाण काल से लेकर सन् 1947 तक (संपूर्ण इतिहास):</strong> पाषाण काल से लेकर आज़ादी तक के भारतीय इतिहास के महत्वपूर्ण 1600+ वस्तुनिष्ठ प्रश्न और विस्तृत व्याख्या। रेलवे, एसएससी और पुलिस भर्ती परीक्षा एवं अन्य एक दिवसीय परीक्षाओं के लिए अति महत्वपूर्ण।</p>
                 </div>
                 
-                <!-- मुख्य स्टार्ट बटन -->
                 <a href="index-test.html" class="btn" style="background-color: #c2410c; text-align: center; display: block; font-size: 1.1rem; padding: 0.9rem; box-shadow: 0 4px 6px rgba(194, 65, 12, 0.2);">🚀 क्विज़ हल करना शुरू करें (Start Now)</a>
             </div>
 
         </div>
 
-        <!-- अन्य किताबें (मुगल काल) -->
+        <!-- 📐 नया मैथ ग्राफ टूल सेक्शन (आपके तय किए गए नामों के साथ) -->
+        <h2 style="margin-top: 3rem;">📐 इंटरैक्टिव मैथ टूल्स</h2>
+        <div class="grid" style="grid-template-columns: 1fr;">
+            <div class="card" style="border-top-color: #0284c7; background: #f0fdf4;">
+                <div>
+                    <span class="badge" style="background-color: #e0f2fe; color: #0369a1;">नवीनतम टूल</span>
+                    <h3>एडवांस्ड यूनिवर्सल मैथ ग्राफ टूल</h3>
+                    <p>गणित के समीकरणों के ग्राफ को लाइव बनाएं, ज़ूम करें और PDF में प्रिंट करें।</p>
+                    
+                    <!-- यहाँ graf.jpg फोटो सेट है -->
+                    <div style="text-align: center; margin: 1rem 0;">
+                        <img src="graf.jpg" alt="Math Graph Tool Preview" style="max-width: 100%; height: auto; border-radius: 6px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.05);" onerror="this.style.display='none'">
+                    </div>
+                </div>
+                <!-- यहाँ mathgraf.html लिंक सेट है -->
+                <a href="mathgraf.html" class="btn" style="background-color: #0284c7; text-align: center; display: block; font-size: 1.1rem; padding: 0.9rem;">📊 ग्राफ टूल खोलें (Open Tool)</a>
+            </div>
+        </div>
+
         <h2 style="margin-top: 3rem;">📚 अन्य आगामी खंड</h2>
         <div class="grid">
             <div class="card" style="border-top-color: #319795;">
@@ -297,7 +302,7 @@
                     <h3>भारत का भूगोल (Geography)</h3>
                     <p>वस्तुनिष्ठ प्रश्नों के साथ।</p>
                 </div>
-                <span class="btn" style="background-color: #cbd5e1; color: #64748b; cursor: not-allowed; text-align: center; display: block;">जद जल्द उपलब्ध होगी</span>
+                <span class="btn" style="background-color: #cbd5e1; color: #64748b; cursor: not-allowed; text-align: center; display: block;">जल्द उपलब्ध होगी</span>
             </div>
 
             <div class="card">
@@ -310,7 +315,6 @@
             </div>
         </div>
 
-        <!-- नीचे का हिस्सा: निशुल्क लेख एवं गाइड सेक्शन -->
         <h2>✍️ निशुल्क लेख एवं गाइड (Free Articles)</h2>
         
         <div class="filter-tags">
@@ -322,7 +326,6 @@
 
         <div class="grid" style="margin-top: 1rem;">
             
-            <!-- 1. यूपी पुलिस भर्ती परीक्षा की तैयारी -->
             <div class="card" style="border-top-color: #0284c7; background: #f0fdf4;">
                 <div>
                     <span class="badge" style="background-color: #dcfce7; color: #166534;">रणनीति गाइड</span>
@@ -332,7 +335,6 @@
                 <a href="up-police-guide.html" class="btn" style="background-color: #0284c7;">पूरा लेख पढ़ें</a>
             </div>
 
-            <!-- 2. समय प्रबंधन / ज्यादा देर तक पढ़ाई कैसे करें -->
             <div class="card" style="border-top-color: #0284c7;">
                 <div>
                     <span class="badge" style="background-color: #e0f2fe; color: #0369a1;">टाइम मैनेजमेंट</span>
@@ -350,7 +352,6 @@
         <p>© 2026 डिजिटल बुक पोर्टल</p>
     </footer>
 
-    <!-- Service Worker Registration Script -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
