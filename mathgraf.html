@@ -30,7 +30,10 @@
             align-items: center;
             margin-bottom: 6px;
         }
-        .top-buttons { display: flex; gap: 5px; }
+        .top-buttons {
+            display: flex;
+            gap: 5px;
+        }
         .input-group, .range-group {
             display: flex;
             gap: 6px;
@@ -56,7 +59,13 @@
             cursor: pointer;
         }
         button:hover { background-color: #0056b3; }
-        .range-label { font-size: 12px; color: #444; font-weight: bold; }
+        
+        .range-label {
+            font-size: 12px;
+            color: #444;
+            font-weight: bold;
+        }
+
         .controls-row {
             display: flex;
             justify-content: space-between;
@@ -73,7 +82,9 @@
         .setting-btn { background-color: #343a40; }
         .print-btn { background-color: #28a745; }
         .formula-btn { background-color: #ffc107; color: #000; font-weight: bold; }
-        
+        .formula-btn:hover { background-color: #e0a800; }
+
+        /* मुख्य सेटिंग पैनल */
         #settingsPanel {
             background: #e9ecef;
             padding: 8px;
@@ -84,99 +95,233 @@
             gap: 6px;
             border: 1px solid #ced4da;
         }
-        .settings-menu-tabs { display: flex; gap: 4px; margin-bottom: 4px; }
+        /* तीन मुख्य मेनू बटन (टैब) */
+        .settings-menu-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
         .settings-tab-btn {
-            flex: 1; padding: 6px 4px; font-size: 11px;
-            background-color: #6c757d; color: white; border: none;
-            border-radius: 4px; cursor: pointer; font-weight: bold; text-align: center;
+            flex: 1;
+            padding: 6px 4px;
+            font-size: 11px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
         }
-        .settings-tab-btn.active { background-color: #007bff; }
+        .settings-tab-btn.active {
+            background-color: #007bff;
+        }
+        /* सब-पैनल */
         .sub-setting-panel {
-            display: none; background: #fff; padding: 10px;
-            border-radius: 4px; border: 1px solid #dee2e6;
-            flex-direction: column; gap: 8px;
+            display: none;
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            flex-direction: column;
+            gap: 8px;
         }
-        .setting-section { display: flex; flex-direction: column; gap: 5px; }
-        .color-options { display: flex; gap: 10px; align-items: center; margin-top: 4px; }
+        .setting-section {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .color-options {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 4px;
+        }
         .color-circle {
-            width: 22px; height: 22px; border-radius: 50%;
-            cursor: pointer; border: 2px solid #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
         .checkbox-group {
-            display: flex; gap: 8px; font-size: 13px; font-weight: bold;
-            color: #333; cursor: pointer; align-items: center;
+            display: flex;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            align-items: center;
         }
-        .checkbox-group input { transform: scale(1.2); cursor: pointer; }
+        .checkbox-group input {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
         .range-slider-group {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 13px; color: #333; font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #333;
+            font-weight: bold;
         }
-        .range-slider-group input[type="range"] { flex: 1; cursor: pointer; height: 6px; }
+        .range-slider-group input[type="range"] {
+            flex: 1;
+            cursor: pointer;
+            height: 6px;
+        }
 
+        /* कीबोर्ड स्टाइल */
         #mathKeyboard {
-            background: #e9ecef; padding: 6px; border-radius: 6px;
-            margin-top: 5px; margin-bottom: 5px;
+            background: #e9ecef;
+            padding: 6px;
+            border-radius: 6px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
-        .kb-tabs { display: flex; gap: 4px; margin-bottom: 4px; }
+        .kb-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
         .tab-btn {
-            flex: 1; padding: 4px 0; font-size: 11px;
-            background-color: #ced4da; color: #333; border: none;
-            border-radius: 4px; cursor: pointer; font-weight: bold;
+            flex: 1;
+            padding: 4px 0;
+            font-size: 11px;
+            background-color: #ced4da;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
         }
-        .tab-btn.active { background-color: #007bff; color: white; }
-        .kb-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+        .tab-btn.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .kb-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+        }
         .key-btn {
-            background-color: #fff; border: 1px solid #ced4da;
-            padding: 6px 0; font-size: 13px; font-weight: bold;
-            border-radius: 4px; cursor: pointer; text-align: center; color: #333;
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            padding: 6px 0;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            color: #333;
         }
         .key-btn:active { background-color: #d6d8db; }
 
+        /* त्वरित सूत्र पट्टी */
         #quickFormulaStrip {
-            background: #e9ecef; padding: 8px; border-radius: 6px;
-            margin-top: 5px; margin-bottom: 5px; display: none;
-            flex-direction: column; gap: 6px; max-height: 165px;
-            overflow-y: auto; border: 1px solid #ced4da;
+            background: #e9ecef;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 165px;
+            overflow-y: auto;
+            border: 1px solid #ced4da;
         }
-        .quick-chips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+        .quick-chips-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
         .quick-chip-btn {
-            background-color: #fff; border: 1px solid #007bff; color: #007bff;
-            padding: 6px 10px; font-size: 12px; font-weight: bold; border-radius: 20px;
-            cursor: pointer; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            background-color: #fff;
+            border: 1px solid #007bff;
+            color: #007bff;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: left;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .quick-chip-btn:hover { background-color: #007bff; color: #fff; }
+        .quick-chip-btn:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
 
         canvas {
-            border: 1px solid #ddd; background-color: #ffffff; display: block;
-            margin: 5px auto; border-radius: 4px; width: 100%;
-            max-width: 500px; aspect-ratio: 1 / 1 !important; height: auto;
-            touch-action: none; cursor: grab;
+            border: 1px solid #ddd;
+            background-color: #ffffff;
+            display: block;
+            margin: 5px auto;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1 / 1 !important;
+            height: auto;
+            touch-action: none;
+            cursor: grab;
         }
-        canvas:active { cursor: grabbing; }
+        canvas:active {
+            cursor: grabbing;
+        }
 
+        /* विस्तृत फॉर्मूला लाइब्रेरी पॉप-अप विंडो */
         #formulaModal {
-            display: none; position: absolute; top: 100px; left: 10px; right: 10px;
-            background: #fff; border: 2px solid #007bff; border-radius: 8px;
-            padding: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.25); z-index: 1000;
-            max-height: 420px; overflow-y: auto;
+            display: none;
+            position: absolute;
+            top: 100px;
+            left: 10px;
+            right: 10px;
+            background: #fff;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            z-index: 1000;
+            max-height: 420px;
+            overflow-y: auto;
         }
         .formula-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
         }
         .formula-header h3 { margin: 0; font-size: 16px; color: #007bff; }
         .close-modal { background: #dc3545; padding: 2px 8px; font-size: 12px; }
         .formula-category {
-            font-size: 12px; font-weight: bold; color: #333;
-            margin-top: 6px; margin-bottom: 3px; background: #e9ecef;
-            padding: 3px; border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 6px;
+            margin-bottom: 3px;
+            background: #e9ecef;
+            padding: 3px;
+            border-radius: 4px;
         }
         .formula-item {
-            padding: 5px 6px; font-size: 12px; background: #f8f9fa;
-            border: 1px solid #dee2e6; border-radius: 4px; margin-bottom: 3px;
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            padding: 5px 6px;
+            font-size: 12px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin-bottom: 3px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .formula-item:hover { background: #e2e6ea; border-color: #007bff; color: #007bff; }
 
@@ -184,7 +329,14 @@
             body { background-color: #fff; padding: 0; }
             .container { box-shadow: none; border: none; max-width: 100%; width: 100%; padding: 0; }
             .top-row, .input-group, .controls-row, #settingsPanel, #mathKeyboard, #quickFormulaStrip, #formulaModal { display: none !important; }
-            canvas { max-width: 580px !important; width: 580px !important; height: 580px !important; aspect-ratio: 1 / 1 !important; margin: 10px auto; border: 1px solid #000; }
+            canvas {
+                max-width: 580px !important;
+                width: 580px !important;
+                height: 580px !important;
+                aspect-ratio: 1 / 1 !important;
+                margin: 10px auto;
+                border: 1px solid #000;
+            }
         }
     </style>
 </head>
@@ -199,6 +351,7 @@
         </div>
     </div>
 
+    <!-- कॉम्पैक्ट सेटिंग पैनल (3 टैब: ग्रिड, अक्ष, और रंग) -->
     <div id="settingsPanel">
         <div class="settings-menu-tabs">
             <button class="settings-tab-btn active" id="gridTabBtn" onclick="switchSettingsTab('grid')">📊 ग्रिड नियंत्रण</button>
@@ -206,47 +359,94 @@
             <button class="settings-tab-btn" id="colorTabBtn" onclick="switchSettingsTab('color')">🎨 रंग सेटिंग्स</button>
         </div>
 
+        <!-- 1. ग्रिड लाइन नियंत्रण पैनल (संख्या रेखा मोड के साथ) -->
         <div id="gridSettingsSubPanel" class="sub-setting-panel" style="display: flex;">
             <div class="setting-section">
                 <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <label class="checkbox-group"><input type="checkbox" id="showMainGrid" checked onchange="plotGraph()"> मुख्य ग्रिड</label>
-                    <label class="checkbox-group"><input type="checkbox" id="showSubGrid" checked onchange="plotGraph()"> छोटे खाने (10)</label>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="showMainGrid" checked onchange="plotGraph()"> मुख्य ग्रिड
+                    </label>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="showSubGrid" checked onchange="plotGraph()"> छोटे खाने (10)
+                    </label>
                 </div>
             </div>
+
+            <!-- संख्या रेखा मोड चयन -->
             <div class="setting-section" style="background: #f8f9fa; padding: 6px; border-radius: 4px; border: 1px solid #ced4da;">
-                <span style="font-size: 12px; font-weight: bold; color: #007bff; display: block; margin-bottom: 4px;">🔢 संख्या रेखा मोड:</span>
+                <span style="font-size: 12px; font-weight: bold; color: #007bff; display: block; margin-bottom: 4px;">🔢 संख्या रेखा मोड (Number Line Mode):</span>
                 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <label class="checkbox-group"><input type="radio" name="numLineMode" id="modeGraph" checked onchange="plotGraph()"> सामान्य ग्राफ</label>
-                    <label class="checkbox-group"><input type="radio" name="numLineMode" id="modeHorizLine" onchange="plotGraph()"> लेटी संख्या रेखा</label>
-                    <label class="checkbox-group"><input type="radio" name="numLineMode" id="modeVertLine" onchange="plotGraph()"> खड़ी संख्या रेखा</label>
+                    <label class="checkbox-group">
+                        <input type="radio" name="numLineMode" id="modeGraph" checked onchange="plotGraph()"> सामान्य ग्राफ
+                    </label>
+                    <label class="checkbox-group">
+                        <input type="radio" name="numLineMode" id="modeHorizLine" onchange="plotGraph()"> लेटी संख्या रेखा (X-अक्ष)
+                    </label>
+                    <label class="checkbox-group">
+                        <input type="radio" name="numLineMode" id="modeVertLine" onchange="plotGraph()"> खड़ी संख्या रेखा (Y-अक्ष)
+                    </label>
+                </div>
+            </div>
+
+            <div class="setting-section">
+                <div class="range-slider-group">
+                    <span>ग्राफ रेखा मोटाई:</span>
+                    <input type="range" id="graphLineThickness" min="1" max="5" value="2.5" step="0.5" oninput="plotGraph()">
                 </div>
             </div>
             <div class="setting-section">
-                <div class="range-slider-group"><span>ग्राफ रेखा मोटाई:</span><input type="range" id="graphLineThickness" min="1" max="5" value="2.5" step="0.5" oninput="plotGraph()"></div>
+                <div class="range-slider-group">
+                    <span>मुख्य ग्रिड मोटाई:</span>
+                    <input type="range" id="mainGridThickness" min="0.5" max="3" value="1.2" step="0.2" oninput="plotGraph()">
+                </div>
             </div>
             <div class="setting-section">
-                <div class="range-slider-group"><span>मुख्य ग्रिड मोटाई:</span><input type="range" id="mainGridThickness" min="0.5" max="3" value="1.2" step="0.2" oninput="plotGraph()"></div>
+                <div class="range-slider-group">
+                    <span>छोटे खाने मोटाई:</span>
+                    <input type="range" id="subGridThickness" min="0.2" max="2" value="0.5" step="0.1" oninput="plotGraph()">
+                </div>
             </div>
             <div class="setting-section">
-                <div class="range-slider-group"><span>छोटे खाने मोटाई:</span><input type="range" id="subGridThickness" min="0.2" max="2" value="0.5" step="0.1" oninput="plotGraph()"></div>
-            </div>
-            <div class="setting-section">
-                <div class="range-slider-group"><span>संख्याओं का आकार:</span><input type="range" id="labelFontSize" min="0" max="16" value="11" step="1" oninput="plotGraph()"></div>
+                <div class="range-slider-group">
+                    <span>संख्याओं का आकार:</span>
+                    <input type="range" id="labelFontSize" min="0" max="16" value="11" step="1" oninput="plotGraph()">
+                </div>
             </div>
         </div>
 
+        <!-- 2. X-Y अक्ष नियंत्रण पैनल -->
         <div id="axisSettingsSubPanel" class="sub-setting-panel">
             <div class="setting-section">
                 <div style="display: flex; gap: 20px;">
-                    <label class="checkbox-group"><input type="checkbox" id="showAxisLabels" checked onchange="plotGraph()"> X, -X, Y, -Y नाम</label>
-                    <label class="checkbox-group"><input type="checkbox" id="showAxisArrows" checked onchange="plotGraph()"> चारों तीर</label>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="showAxisLabels" checked onchange="plotGraph()"> X, -X, Y, -Y नाम
+                    </label>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="showAxisArrows" checked onchange="plotGraph()"> चारों तीर
+                    </label>
                 </div>
             </div>
-            <div class="setting-section"><div class="range-slider-group"><span>X-Y अक्ष मोटाई:</span><input type="range" id="axisThickness" min="1" max="4" value="2" step="0.5" oninput="plotGraph()"></div></div>
-            <div class="setting-section"><div class="range-slider-group"><span>अक्ष नाम का आकार:</span><input type="range" id="axisLabelSize" min="10" max="30" value="18" step="1" oninput="plotGraph()"></div></div>
-            <div class="setting-section"><div class="range-slider-group"><span>तीर का आकार:</span><input type="range" id="arrowSize" min="4" max="22" value="12" step="1" oninput="plotGraph()"></div></div>
+            <div class="setting-section">
+                <div class="range-slider-group">
+                    <span>X-Y अक्ष मोटाई:</span>
+                    <input type="range" id="axisThickness" min="1" max="4" value="2" step="0.5" oninput="plotGraph()">
+                </div>
+            </div>
+            <div class="setting-section">
+                <div class="range-slider-group">
+                    <span>अक्ष नाम का आकार:</span>
+                    <input type="range" id="axisLabelSize" min="10" max="30" value="18" step="1" oninput="plotGraph()">
+                </div>
+            </div>
+            <div class="setting-section">
+                <div class="range-slider-group">
+                    <span>तीर का आकार:</span>
+                    <input type="range" id="arrowSize" min="4" max="22" value="12" step="1" oninput="plotGraph()">
+                </div>
+            </div>
         </div>
 
+        <!-- 3. रंग सेटिंग्स पैनल -->
         <div id="colorSettingsSubPanel" class="sub-setting-panel">
             <div class="setting-section">
                 <span style="font-size: 13px; font-weight: bold; color: #333;">ग्राफ की रेखा का रंग:</span>
@@ -260,10 +460,10 @@
                 </div>
             </div>
             <div class="setting-section" style="margin-top: 6px;">
-                <span style="font-size: 13px; font-weight: bold; color: #333;">ग्रिड का रंग:</span>
+                <span style="font-size: 13px; font-weight: bold; color: #333;">ग्रिड (खानों) का रंग:</span>
                 <div class="color-options">
                     <div class="color-circle" style="background-color: #28a745;" onclick="changeGridColor('#28a745')" title="हरा"></div>
-                    <div class="color-circle" style="background-color: #343a40;" onclick="changeGridColor('#343a40')" title="काला"></div>
+                    <div class="color-circle" style="background-color: #343a40;" onclick="changeGridColor('#343a40')" title="काला/ग्रे"></div>
                     <div class="color-circle" style="background-color: #007bff;" onclick="changeGridColor('#007bff')" title="नीला"></div>
                     <div class="color-circle" style="background-color: #dc3545;" onclick="changeGridColor('#dc3545')" title="लाल"></div>
                     <div class="color-circle" style="background-color: #6f42c1;" onclick="changeGridColor('#6f42c1')" title="बैंगनी"></div>
@@ -273,28 +473,29 @@
     </div>
     
     <div class="input-group">
-        <input type="text" id="equationInput" placeholder="समीकरण लिखें जैसे: x/4 + y/3 = 1" value="x/25 + y/9 = 1">
+        <input type="text" id="equationInput" placeholder="समीकरण लिखें जैसे: x/4 + y/3 = 1" value="x/25 + y/9 = 3">
         <button onclick="plotGraph()">ग्राफ बनाएं</button>
     </div>
 
     <div class="controls-row">
         <div class="range-group" style="margin-bottom: 0;">
             <span class="range-label">रेंज:</span>
-            <input type="number" id="rangeInput" value="8" min="2" max="100" style="max-width: 60px; padding: 4px;">
+            <input type="number" id="rangeInput" value="11" min="2" max="100" style="max-width: 60px; padding: 4px;">
             <button onclick="updateRange()" style="padding: 4px 8px; font-size: 12px;">सेट</button>
         </div>
         <div>
             <button class="formula-btn" onclick="toggleFormulaModal()">📚 फॉर्मूला</button>
-            <button class="toggle-btn" id="toggleKbBtn" onclick="toggleKeyboard()" style="padding: 4px 8px;">कीबोर्ड छुपाएं</button>
-            <span id="kbStatus" style="font-size: 11px; margin-left: 2px;">चालू</span>
+            <button class="toggle-btn" id="toggleKbBtn" onclick="toggleKeyboard()" style="padding: 4px 8px;">कीबोर्ड दिखाएं</button>
+            <span id="kbStatus" style="font-size: 11px; margin-left: 2px;">बंद</span>
         </div>
     </div>
 
-    <div id="mathKeyboard">
+    <!-- ऑन-स्क्रीन मैथ कीबोर्ड -->
+    <div id="mathKeyboard" style="display: none;">
         <div class="kb-tabs">
             <button class="tab-btn active" id="tab1Btn" onclick="switchTab(1)">मुख्य (123)</button>
-            <button class="tab-btn" id="tab2Btn" onclick="switchTab(2)">फंक्शन</button>
-            <button class="tab-btn" id="tab3Btn" onclick="switchTab(3)">चिह्न</button>
+            <button class="tab-btn" id="tab2Btn" onclick="switchTab(2)">फंक्शन (sin, log)</button>
+            <button class="tab-btn" id="tab3Btn" onclick="switchTab(3)">चिह्न (=, (, ))</button>
         </div>
 
         <div id="kbTab1" class="kb-grid">
@@ -304,24 +505,28 @@
             <button class="key-btn" onclick="insertAtCursor('²')">²</button>
             <button class="key-btn" onclick="insertAtCursor('³')">³</button>
             <button class="key-btn" onclick="insertAtCursor('**')">x<sup>n</sup></button>
+
             <button class="key-btn" onclick="insertAtCursor('a')">a</button>
             <button class="key-btn" onclick="insertAtCursor('b')">b</button>
             <button class="key-btn" onclick="insertAtCursor('c')">c</button>
             <button class="key-btn" onclick="insertAtCursor('1')">1</button>
             <button class="key-btn" onclick="insertAtCursor('2')">2</button>
             <button class="key-btn" onclick="insertAtCursor('3')">3</button>
+
             <button class="key-btn" onclick="insertAtCursor('l')">l</button>
             <button class="key-btn" onclick="insertAtCursor('m')">m</button>
             <button class="key-btn" onclick="insertAtCursor('n')">n</button>
             <button class="key-btn" onclick="insertAtCursor('4')">4</button>
             <button class="key-btn" onclick="insertAtCursor('5')">5</button>
             <button class="key-btn" onclick="insertAtCursor('6')">6</button>
+
             <button class="key-btn" onclick="insertAtCursor('+')">+</button>
             <button class="key-btn" onclick="insertAtCursor('-')">-</button>
             <button class="key-btn" onclick="insertAtCursor('.')">.</button>
             <button class="key-btn" onclick="insertAtCursor('7')">7</button>
             <button class="key-btn" onclick="insertAtCursor('8')">8</button>
             <button class="key-btn" onclick="insertAtCursor('9')">9</button>
+
             <button class="key-btn" onclick="insertAtCursor('×')">×</button>
             <button class="key-btn" onclick="insertAtCursor('/')">/</button>
             <button class="key-btn" onclick="insertAtCursor('=')">=</button>
@@ -337,18 +542,27 @@
             <button class="key-btn" onclick="insertAtCursor('mod x')">mod</button>
             <button class="key-btn" onclick="insertAtCursor('log(x)')">log</button>
             <button class="key-btn" onclick="deleteChar()" style="background-color: #f8d7da; color: #721c24;">⌫</button>
+
             <button class="key-btn" onclick="insertAtCursor('asin(x)')">asin</button>
             <button class="key-btn" onclick="insertAtCursor('acos(x)')">acos</button>
             <button class="key-btn" onclick="insertAtCursor('atan(x)')">atan</button>
             <button class="key-btn" onclick="insertAtCursor('sqrt(x)')">√</button>
             <button class="key-btn" onclick="insertAtCursor('abs(x)')">abs</button>
             <button class="key-btn" onclick="insertAtCursor('exp(x)')">exp</button>
+
             <button class="key-btn" onclick="insertAtCursor('cot(x)')">cot</button>
             <button class="key-btn" onclick="insertAtCursor('sec(x)')">sec</button>
             <button class="key-btn" onclick="insertAtCursor('cosec(x)')">csc</button>
             <button class="key-btn" onclick="insertAtCursor('^')">^</button>
             <button class="key-btn" onclick="insertAtCursor('x')">x</button>
             <button class="key-btn" onclick="insertAtCursor('y')">y</button>
+
+            <button class="key-btn" onclick="insertAtCursor('1')">1</button>
+            <button class="key-btn" onclick="insertAtCursor('2')">2</button>
+            <button class="key-btn" onclick="insertAtCursor('3')">3</button>
+            <button class="key-btn" onclick="insertAtCursor('4')">4</button>
+            <button class="key-btn" onclick="insertAtCursor('5')">5</button>
+            <button class="key-btn" onclick="insertAtCursor('0')">0</button>
         </div>
 
         <div id="kbTab3" class="kb-grid" style="display: none;">
@@ -358,43 +572,96 @@
             <button class="key-btn" onclick="insertAtCursor('×')">×</button>
             <button class="key-btn" onclick="insertAtCursor('÷')">÷</button>
             <button class="key-btn" onclick="deleteChar()" style="background-color: #f8d7da; color: #721c24;">⌫</button>
+
             <button class="key-btn" onclick="insertAtCursor('(')">(</button>
             <button class="key-btn" onclick="insertAtCursor(')')">)</button>
             <button class="key-btn" onclick="insertAtCursor('^')">^</button>
             <button class="key-btn" onclick="insertAtCursor('.')">.</button>
             <button class="key-btn" onclick="insertAtCursor('/')">/</button>
             <button class="key-btn" onclick="insertAtCursor('y')">y</button>
+
+            <button class="key-btn" onclick="insertAtCursor('x')">x</button>
+            <button class="key-btn" onclick="insertAtCursor('²')">x²</button>
+            <button class="key-btn" onclick="insertAtCursor('³')">x³</button>
+            <button class="key-btn" onclick="insertAtCursor('π')">π</button>
+            <button class="key-btn" onclick="insertAtCursor('mod x')">mod</button>
+            <button class="key-btn" onclick="insertAtCursor('0')">0</button>
+
+            <button class="key-btn" onclick="insertAtCursor('1')">1</button>
+            <button class="key-btn" onclick="insertAtCursor('2')">2</button>
+            <button class="key-btn" onclick="insertAtCursor('3')">3</button>
+            <button class="key-btn" onclick="insertAtCursor('4')">4</button>
+            <button class="key-btn" onclick="insertAtCursor('5')">5</button>
+            <button class="key-btn" onclick="insertAtCursor('6')">6</button>
         </div>
     </div>
 
+    <!-- ग्राफ -->
     <canvas id="graphCanvas"></canvas>
 
-    <div id="quickFormulaStrip">
+    <!-- त्वरित सूत्र पट्टी -->
+    <div id="quickFormulaStrip" style="display: flex;">
         <div style="font-size: 11px; font-weight: bold; color: #007bff; display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
-            <span>⚡ त्वरित सूत्र चुनें:</span>
+            <span>⚡ त्वरित सूत्र चुनें (ऊपर-नीचे स्क्रॉल करें):</span>
         </div>
         <div class="quick-chips-grid">
             <button class="quick-chip-btn" onclick="applyQuickFormula('x² + y² = 25')">🔵 वृत्त: x² + y² = 25</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('(x - 2)² + (y - 3)² = 16')">🔵 केंद्र (h,k) वृत्त</button>
             <button class="quick-chip-btn" onclick="applyQuickFormula('y = 2*x + 3')">📈 रेखा: y = 2x + 3</button>
-            <button class="quick-chip-btn" onclick="applyQuickFormula('x²/25 + y²/9 = 1')">🥚 दीर्घवृत्त</button>
-            <button class="quick-chip-btn" onclick="applyQuickFormula('y = x² - 5*x + 6')">📉 द्विघात</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('x/4 + y/3 = 1')">📈 अंतःखंड रेखा</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y² = 4*x')">🎯 परवलय: y² = 4x</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('x² = 4*y')">🎯 परवलय: x² = 4y</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('x²/25 + y²/9 = 1')">🥚 दीर्घवृत्त (Ellipse)</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('x²/16 - y²/9 = 1')">⏳ अतिपरवलय (Hyperbola)</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = x² - 5*x + 6')">📉 द्विघात बहुपद</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = x³ - 3*x')">📉 त्रिघात बहुपद</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = sin(x)')">〰 साइन: y = sin(x)</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = cos(x)')">〰 कोसाइन: y = cos(x)</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = tan(x)')">〰️ टेंजेंट: y = tan(x)</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = log(x)')">📊 लघुगणक: log(x)</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = exp(x)')">📈 चरघातांकीय eˣ</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = mod x')">📐 मापांक: |x|</button>
+            <button class="quick-chip-btn" onclick="applyQuickFormula('y = sqrt(x)')">📐 वर्गमूल: √x</button>
         </div>
     </div>
 
+    <!-- विस्तृत फॉर्मूला लाइब्रेरी (पॉप-अप) -->
     <div id="formulaModal">
         <div class="formula-header">
-            <h3>📐 फॉर्मूला लाइब्रेरी</h3>
-            <button class="close-modal" onclick="toggleFormulaModal()">✕</button>
+            <h3>📐 संपूर्ण गणितीय सूत्र लाइब्रेरी</h3>
+            <button class="close-modal" onclick="toggleFormulaModal()">✕ बंद करें</button>
         </div>
-        <div class="formula-category">वृत्त एवं रेखा</div>
-        <div class="formula-item" onclick="selectFormula('x² + y² = 25')"><span>x² + y² = 25</span> ➔ चुनें</div>
-        <div class="formula-item" onclick="selectFormula('y = 2*x + 3')"><span>y = 2x + 3</span> ➔ चुनें</div>
-        <div class="formula-category">शंकु परिच्छेद</div>
-        <div class="formula-item" onclick="selectFormula('x²/25 + y²/9 = 1')"><span>दीर्घवृत्त</span> ➔ चुनें</div>
+        
+        <div class="formula-category">1. वृत्त (Circle)</div>
+        <div class="formula-item" onclick="selectFormula('x² + y² = 25')"><span>मूल बिंदु वृत्त: x² + y² = 25</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('(x - 2)² + (y - 3)² = 16')"><span>केंद्र (h,k) वृत्त: (x - 2)² + (y - 3)² = 16</span> ➔ चुनें</div>
+
+        <div class="formula-category">2. सरल रेखा (Straight Line)</div>
+        <div class="formula-item" onclick="selectFormula('y = 2*x + 3')"><span>प्रवणता रूप: y = 2x + 3</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('x/4 + y/3 = 1')"><span>अंतःखंड रूप: x/4 + y/3 = 1</span> ➔ चुनें</div>
+
+        <div class="formula-category">3. शंकु परिच्छेद (Parabola, Ellipse, Hyperbola)</div>
+        <div class="formula-item" onclick="selectFormula('y² = 4*x')"><span>परवलय: y² = 4x</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('x² = 4*y')"><span>परवलय: x² = 4y</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('x²/25 + y²/9 = 1')"><span>दीर्घवृत्त: x²/25 + y²/9 = 1</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('x²/16 - y²/9 = 1')"><span>अतिपरवलय: x²/16 - y²/9 = 1</span> ➔ चुनें</div>
+
+        <div class="formula-category">4. बहुपद फलन (Polynomials)</div>
+        <div class="formula-item" onclick="selectFormula('y = x² - 5*x + 6')"><span>द्विघात बहुपद: y = x² - 5x + 6</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('y = x³ - 3*x')"><span>त्रिघात बहुपद: y = x³ - 3x</span> ➔ चुनें</div>
+
+        <div class="formula-category">5. त्रिकोणमितीय फलन (Trigonometric Functions)</div>
+        <div class="formula-item" onclick="selectFormula('y = sin(x)')"><span>साइन फलन: y = sin(x)</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('y = cos(x)')"><span>कोसाइन फलन: y = cos(x)</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('y = tan(x)')"><span>टेंजेंट फलन: y = tan(x)</span> ➔ चुनें</div>
+
+        <div class="formula-category">6. लघुगणक एवं अन्य</div>
+        <div class="formula-item" onclick="selectFormula('y = log(x)')"><span>लघुगणक फलन: y = log(x)</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('y = exp(x)')"><span>चरघातांकीय फलन: eˣ [exp(x)]</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('y = mod x')"><span>मापांक फलन: y = mod x</span> ➔ चुनें</div>
+        <div class="formula-item" onclick="selectFormula('y = sqrt(x)')"><span>वर्गमूल फलन: y = √x</span> ➔ चुनें</div>
     </div>
 </div>
-
-<!-- यहाँ जावास्क्रिप्ट फाइल जोड़ी गई है -->
 <script src="graf.js"></script>
 </body>
 </html>
