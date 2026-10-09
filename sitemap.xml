@@ -14,8 +14,13 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- एडवांस यूनिवर्सल मैथ ग्राफ टूल -->
+    <!-- भारतीय संविधान ई-बुक पेज -->
+  <url>
+    <loc>https://digital-book-portal.netlify.app/BharatiySamvidhan.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+ <!-- एडवांस यूनिवर्सल मैथ ग्राफ टूल -->
   <url>
     <loc>https://digital-book-portal.netlify.app/mathgraf</loc>
     <changefreq>weekly</changefreq>
